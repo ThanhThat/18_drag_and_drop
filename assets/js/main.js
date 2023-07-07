@@ -4,33 +4,28 @@ const $$ = document.querySelectorAll.bind(document);
 const boxList = $$(".box");
 const boxImg = $(".box-img");
 
-setEventDragAndDrop(boxImg);
-
 boxList.forEach((box) => {
-  setEventDragAndDrop(box);
+  box.addEventListener("dragover", dragAllow);
+  box.addEventListener("drop", drop);
 });
 
-function setEventDragAndDrop(elem) {
-  elem.setAttribute("draggable", true);
-  elem.addEventListener("dragstart", drag);
-  elem.addEventListener("drop", drop);
-  elem.addEventListener("dragover", allowDrop);
+boxImg.addEventListener("dragstart", dragStart);
+boxImg.addEventListener("dragend", dragEnd);
+
+function dragStart() {
+  boxImg.classList.add("dragging");
 }
 
-function allowDrop(ev) {
-  ev.preventDefault();
+function dragEnd() {
+  boxImg.classList.remove("dragging");
+}
+
+function dragAllow(e) {
+  e.preventDefault();
   this.appendChild(boxImg);
 }
 
-function drag(ev) {
-  // console.log(ev.target.className);
-  ev.dataTransfer.setData("text", ev.target.className);
-  ev.target.classList.add("dragging");
-}
-
-function drop(ev) {
-  ev.preventDefault();
-  let data = ev.dataTransfer.getData("text");
-  ev.target.classList.remove("dragging");
-  ev.target.appendChild($(`.${data}`));
+function drop(e) {
+  e.preventDefault();
+  this.appendChild(boxImg);
 }

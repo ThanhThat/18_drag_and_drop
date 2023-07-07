@@ -41,8 +41,8 @@ img {
     height: 100%;
     cursor: pointer;
   }
-}
 
-.dragging {
-  border: 4px solid #ccc;
+  &-img.dragging {
+    border: 6px solid #ccc;
+  }
 }
